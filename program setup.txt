@@ -1,0 +1,23 @@
+appsetting config
+
+"ConnectionStrings": {
+    "DefaultConnection":"Server=.;Database=CRUDTest;Trusted_Connection=True;MultipleActiveResultSets=true"
+  },
+
+
+program.cs config
+
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
+
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseSqlServer(connectionString));
+
+
+Dbcontext config
+
+public ApplicationDbContext(DbContextOptions<ApplicationDbContext> dbContextOptions)
+             : base(dbContextOptions)
+        {
+        }
+        public DbSet<Test> Tests{ get; set; }

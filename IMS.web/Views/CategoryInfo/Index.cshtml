@@ -1,0 +1,98 @@
+﻿@model IEnumerable<IMS.models.Entity.CategoryInfo>
+
+
+<div class="row">
+	<div class="col-6">
+		<a class="btn btn-primary float-left mb-2" asp-action="AddEdit">AddNew</a>
+	</div>
+
+</div>
+
+<div class="row">
+	<div class="col-12">
+		<table class="table table-bordered">
+			<thead>
+				<tr>
+					<th>
+						CategoryName
+					</th>
+
+					<th>
+						CategoryDescription
+					</th>
+					<th>
+						StoreInfoId
+					</th>
+
+					<th>
+						IsActive
+					</th>
+
+					<th>
+						CreatedDate
+					</th>
+
+					<th>
+						CreatedBy
+					</th>
+
+					<th>
+						ModifiedDate
+					</th>
+
+					<th>
+						ModifiedBy
+					</th>
+				</tr>
+
+			</thead>
+			<tbody>
+				@foreach (var items in Model)
+				{
+					<tr>
+						<td>
+							@items.CategoryName
+						</td>
+
+						<td>
+							@items.CategoryDescription
+						</td>
+
+						<td>
+							@items.StoreInfoId
+						</td>
+
+						<td>
+							@items.IsActive
+						</td>
+
+						<td>
+							@items.CreatedDate
+						</td>
+
+						<td>
+							@items.CreatedBy
+						</td>
+						<td>
+							@items.ModifiedDate
+						</td>
+						<td>
+							@items.ModifiedBy
+						</td>
+						@* <td>
+					@items.Action
+					</td> *@
+
+
+
+						<td>
+							<a class="btn btn-outline-primary btn-sm" asp-action="AddEdit" asp-route-id="@items.Id">Edit</a>
+							<a class="btn btn-outline-danger btn-sm" asp-action="Delete" onclick="return confirm('Are you sure you want to delete')" asp-route-id="@items.Id">Delete</a>
+						</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+	</div>
+
+</div>
