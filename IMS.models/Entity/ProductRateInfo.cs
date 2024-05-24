@@ -11,7 +11,7 @@ namespace IMS.models.Entity
         public int CategoryInfoId { get; set; }
         public int ProductInfoId { get; set; }
         public int StoreInfoId { get; set; }
-        //public int UnitId { get; set; }
+        public int UnitId { get; set; }
         public float CostPrice { get; set; }
         public float SellingPrice { get; set; }
         public float Quantity { get; set; }

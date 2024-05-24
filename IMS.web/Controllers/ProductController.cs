@@ -73,6 +73,7 @@ namespace IMS.web.Controllers
 				{
 					var userId = _userManager.GetUserId(HttpContext.User);
 					var user = await _userManager.FindByIdAsync(userId);
+
                     if (productInfo.ImageFile != null)
                     {
                         string fileDirectory = $"wwwroot/ProductImage";

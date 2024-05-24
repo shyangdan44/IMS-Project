@@ -66,7 +66,7 @@ else
     </div>
 
     <div class="row">
-       @*<div class="col-4">
+       <div class="col-4">
             <div class="form-group">
                 <label class="form-label" asp-for="UnitId"></label>
                 <select asp-for="UnitId" class="form-control" asp-items="@(new SelectList(ViewBag.UnitInfos,"Id","UnitName"))">
@@ -75,7 +75,7 @@ else
 
                 <span class="text-danger" asp-validation-for="UnitId"></span>
             </div>
-        </div>*@
+        </div>
         <div class="col-4">
             <div class="form-group">
                 <label class="form-label" asp-for="CostPrice"></label>

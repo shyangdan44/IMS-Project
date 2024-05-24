@@ -51,7 +51,6 @@ namespace IMS.web.Controllers
 
         }
 
-
         [HttpPost]
         public async Task<IActionResult> AddEdit(CustomerInfo customerInfo)
         {
