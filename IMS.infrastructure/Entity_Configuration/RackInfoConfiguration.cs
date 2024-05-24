@@ -13,7 +13,12 @@ namespace IMS.infrastructure.Entity_Configuration
 	{
 		public void Configure(EntityTypeBuilder<RackInfo> builder)
 		{
-			builder.Property(e => e.RackName)
+            builder.HasKey(e => e.Id);
+
+            builder.Property(e => e.Id)
+               .ValueGeneratedOnAdd();
+
+            builder.Property(e => e.RackName)
 				.HasMaxLength(150)
 				.IsUnicode(true);
 
@@ -22,10 +27,13 @@ namespace IMS.infrastructure.Entity_Configuration
 
 			builder.Property(e => e.CreatedDate)
 				.IsRequired()
-				.HasDefaultValueSql("GETDATE()");
-			builder.Property(e => e.CreatedBy)
+				.HasDefaultValueSql("GETDATE()")
+				.HasColumnType("datetime");
+
+            builder.Property(e => e.CreatedBy)
 				.IsRequired()
 				.IsUnicode(true);
+
 			builder.Property(e => e.ModifiedDate)
 				.HasColumnType("datetime");
 

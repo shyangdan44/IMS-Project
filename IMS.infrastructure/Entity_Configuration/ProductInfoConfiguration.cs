@@ -17,6 +17,7 @@ namespace IMS.infrastructure.Entity_Configuration
 
 			builder.Property(e => e.Id)
 			   .ValueGeneratedOnAdd();
+
 			builder.Property(e => e.ProductName)
 				.HasMaxLength(200)
 				.IsUnicode(true);

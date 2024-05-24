@@ -13,7 +13,13 @@ namespace IMS.infrastructure.Entity_Configuration
 	{
 		public void Configure(EntityTypeBuilder<TransactionInfo> builder)
 		{
-			builder.Property(e => e.TransactionType)
+            builder.HasKey(e => e.Id);
+
+            builder.Property(e => e.Id)
+               .ValueGeneratedOnAdd();
+
+
+            builder.Property(e => e.TransactionType)
 				.HasMaxLength(200)
 				.IsUnicode(true);
 
@@ -26,22 +32,25 @@ namespace IMS.infrastructure.Entity_Configuration
 			builder.Property(e => e.Amount)
 				.HasColumnType("float");
 
-			builder.Property(e => e.IsActive)
-			.HasDefaultValue(true);
-
 			builder.Property(e => e.CreatedDate)
 				.IsRequired()
-				.HasDefaultValueSql("GETDATE()");
-			builder.Property(e => e.CreatedBy)
+				.HasDefaultValueSql("GETDATE()")
+				.HasColumnType("datetime");
+
+            builder.Property(e => e.CreatedBy)
 				.IsRequired()
 				.IsUnicode(true);
+
 			builder.Property(e => e.ModifiedDate)
 				.HasColumnType("datetime");
 
 			builder.Property(e => e.ModifiedBy)
 				.IsUnicode(true);
 
-			builder.HasOne(e => e.CategoryInfo)
+            builder.Property(e => e.IsActive)
+               .HasDefaultValue(true);
+
+            builder.HasOne(e => e.CategoryInfo)
 			.WithMany(pt => pt.TransactionInfos)
 			.HasForeignKey(e => e.CategoryInfoId)
             .OnDelete(DeleteBehavior.Restrict);

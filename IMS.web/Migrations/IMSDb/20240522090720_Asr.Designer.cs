@@ -4,6 +4,7 @@ using IMS.infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace IMS.web.Migrations.IMSDb
 {
     [DbContext(typeof(IMSDbContext))]
-    partial class IMSDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240522090720_Asr")]
+    partial class Asr
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -83,7 +86,6 @@ namespace IMS.web.Migrations.IMSDb
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Address")
-                        .IsRequired()
                         .HasMaxLength(200)
                         .IsUnicode(true)
                         .HasColumnType("nvarchar(200)");
@@ -99,7 +101,6 @@ namespace IMS.web.Migrations.IMSDb
                         .HasDefaultValueSql("GETDATE()");
 
                     b.Property<string>("CustomerName")
-                        .IsRequired()
                         .HasMaxLength(200)
                         .IsUnicode(true)
                         .HasColumnType("nvarchar(200)");
@@ -109,13 +110,21 @@ namespace IMS.web.Migrations.IMSDb
                         .IsUnicode(true)
                         .HasColumnType("nvarchar(200)");
 
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("PanNo")
                         .HasMaxLength(200)
                         .IsUnicode(true)
                         .HasColumnType("nvarchar(200)");
 
                     b.Property<string>("PhoneNumber")
-                        .IsRequired()
                         .HasMaxLength(200)
                         .IsUnicode(true)
                         .HasColumnType("nvarchar(200)");
@@ -339,7 +348,7 @@ namespace IMS.web.Migrations.IMSDb
 
                     b.Property<DateTime>("CreatedDate")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime")
+                        .HasColumnType("datetime2")
                         .HasDefaultValueSql("GETDATE()");
 
                     b.Property<DateTime?>("Expirydate")
@@ -360,7 +369,7 @@ namespace IMS.web.Migrations.IMSDb
                     b.Property<int>("ProductInfoId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("PurchasedDate")
+                    b.Property<DateTime?>("PurchasedDate")
                         .HasColumnType("datetime");
 
                     b.Property<double>("Quantity")
@@ -414,7 +423,7 @@ namespace IMS.web.Migrations.IMSDb
 
                     b.Property<DateTime>("CreatedDate")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime")
+                        .HasColumnType("datetime2")
                         .HasDefaultValueSql("GETDATE()");
 
                     b.Property<bool>("IsActive")
@@ -462,7 +471,7 @@ namespace IMS.web.Migrations.IMSDb
 
                     b.Property<DateTime>("CreatedDate")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime")
+                        .HasColumnType("datetime2")
                         .HasDefaultValueSql("GETDATE()");
 
                     b.Property<bool>("IsActive")
@@ -653,7 +662,7 @@ namespace IMS.web.Migrations.IMSDb
 
                     b.Property<DateTime>("CreatedDate")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime")
+                        .HasColumnType("datetime2")
                         .HasDefaultValueSql("GETDATE()");
 
                     b.Property<bool>("IsActive")
@@ -721,7 +730,7 @@ namespace IMS.web.Migrations.IMSDb
 
                     b.Property<DateTime>("CreatedDate")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime")
+                        .HasColumnType("datetime2")
                         .HasDefaultValueSql("GETDATE()");
 
                     b.Property<bool>("IsActive")
@@ -819,13 +828,13 @@ namespace IMS.web.Migrations.IMSDb
                     b.HasOne("IMS.models.Entity.CustomerInfo", "CustomerInfo")
                         .WithMany("ProductInvoiceInfos")
                         .HasForeignKey("CustomerInfoId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("IMS.models.Entity.StoreInfo", "StoreInfo")
                         .WithMany("ProductInvoiceInfos")
                         .HasForeignKey("StoreInfoId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("CustomerInfo");

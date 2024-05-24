@@ -1,18 +1,20 @@
 ﻿using IMS.infrastructure.Irepository;
 using IMS.models.Entity;
 using IMS.web.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IMS.web.Controllers
 {
-    public class CustomerInfoController : Controller
+	[Authorize(Roles = "ADMIN")]
+	public class CustomerController : Controller
     {
         private readonly ICrudServices<CustomerInfo> _customerInfo;
         private readonly ICrudServices<StoreInfo> _storeInfo;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public CustomerInfoController(ICrudServices<CustomerInfo> customerInfo,
+        public CustomerController(ICrudServices<CustomerInfo> customerInfo,
             ICrudServices<StoreInfo> storeInfo,
             UserManager<ApplicationUser> userManager)
         {
@@ -39,7 +41,6 @@ namespace IMS.web.Controllers
         public async Task<IActionResult> AddEdit(int Id)
         {
             CustomerInfo customerInfo = new CustomerInfo();
-            customerInfo.IsActive = true;
             if (Id > 0)
             {
                 customerInfo = await _customerInfo.GetAsync(Id);
@@ -71,20 +72,15 @@ namespace IMS.web.Controllers
                     }
                     else
                     {
-                        var OrgCustomerInfo = await _customerInfo.GetAsync(customerInfo.Id);
-                        OrgCustomerInfo.CustomerName = customerInfo.CustomerName;
-                        OrgCustomerInfo.StoreInfoId = customerInfo.StoreInfoId;
-                        OrgCustomerInfo.Email = customerInfo.Email;
-                        OrgCustomerInfo.PhoneNumber = customerInfo.PhoneNumber;
-                        OrgCustomerInfo.Address = customerInfo.Address;
-                        OrgCustomerInfo.PanNo = customerInfo.PanNo;
-                        OrgCustomerInfo.Address = customerInfo.Address;
-                        OrgCustomerInfo.CreatedBy = customerInfo.CreatedBy;
-                        OrgCustomerInfo.CreatedDate = DateTime.Now;
-						OrgCustomerInfo.ModifiedDate = DateTime.Now;
-						OrgCustomerInfo.ModifiedBy = userId;
-						OrgCustomerInfo.IsActive = customerInfo.IsActive;
-						await _customerInfo.UpdateAsync(OrgCustomerInfo);
+                        var OrgcustomerInfo = await _customerInfo.GetAsync(customerInfo.Id);
+                        OrgcustomerInfo.CustomerName = customerInfo.CustomerName;                       
+                        OrgcustomerInfo.Email = customerInfo.Email;
+                        OrgcustomerInfo.PhoneNumber = customerInfo.PhoneNumber;
+                        OrgcustomerInfo.PanNo = customerInfo.PanNo;
+                        OrgcustomerInfo.Address = customerInfo.Address;
+                        OrgcustomerInfo.CreatedBy = customerInfo.CreatedBy;
+                        OrgcustomerInfo.CreatedDate = DateTime.Now;
+						await _customerInfo.UpdateAsync(OrgcustomerInfo);
                         TempData["success"] = "Data Updated Successfully";
                     }
                     return RedirectToAction(nameof(Index));

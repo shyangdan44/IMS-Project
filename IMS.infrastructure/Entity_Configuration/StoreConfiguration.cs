@@ -40,7 +40,7 @@ namespace IMS.infrastructure.Entity_Configuration
               .IsUnicode(true);
 
 			builder.Property(e => e.IsActive)
- .HasDefaultValue(true);
+			.HasDefaultValue(true);
 
 			builder.Property(e => e.CreatedDate)
 				.IsRequired()

@@ -13,7 +13,11 @@ namespace IMS.infrastructure.Entity_Configuration
 	{
 		public void Configure(EntityTypeBuilder<ProductRateInfo> builder)
 		{
-			builder.Property(e => e.CostPrice)
+            builder.HasKey(e => e.Id);
+            builder.Property(e => e.Id)
+               .ValueGeneratedOnAdd();
+
+            builder.Property(e => e.CostPrice)
 				.HasColumnType("float");
 
 			builder.Property(e => e.SellingPrice)
@@ -33,7 +37,8 @@ namespace IMS.infrastructure.Entity_Configuration
 				.IsUnicode(true);
 
 			builder.Property(e => e.PurchasedDate)
-				.HasColumnType("datetime");
+                 .IsRequired()
+                .HasColumnType("datetime");
 
 			builder.Property(e => e.Expirydate)
 				.HasColumnType("datetime");
@@ -43,8 +48,10 @@ namespace IMS.infrastructure.Entity_Configuration
 
 			builder.Property(e => e.CreatedDate)
 				.IsRequired()
-				.HasDefaultValueSql("GETDATE()");
-			builder.Property(e => e.CreatedBy)
+				.HasDefaultValueSql("GETDATE()")
+				.HasColumnType("datetime");
+
+            builder.Property(e => e.CreatedBy)
 				.IsRequired()
 				.IsUnicode(true);
 			builder.Property(e => e.ModifiedDate)

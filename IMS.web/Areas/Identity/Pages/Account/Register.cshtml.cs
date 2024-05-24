@@ -46,9 +46,9 @@ namespace IMS.web.Areas.Identity.Pages.Account
             _emailStore = GetEmailStore();
             _signInManager = signInManager;
             _logger = logger;
-            _emailSender = emailSender;
-            _roleManager = roleManager;
+            _emailSender = emailSender;          
             _storeInfo = storeInfo;
+            _roleManager = roleManager;
         }
 
         /// <summary>

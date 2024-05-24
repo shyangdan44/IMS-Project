@@ -1,41 +1,36 @@
 ﻿using IMS.infrastructure.Irepository;
 using IMS.models.Entity;
 using IMS.web.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IMS.web.Controllers
 {
-    public class CategoryInfoController : Controller
+    [Authorize(Roles = "ADMIN")]
+    public class CategoryController : Controller
     {
         private readonly ICrudServices<CategoryInfo> _categoryInfo;
         private readonly ICrudServices<StoreInfo> _storeInfo;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public CategoryInfoController(ICrudServices<CategoryInfo> categoryInfo,
+        public CategoryController(ICrudServices<CategoryInfo> categoryInfo,
             ICrudServices<StoreInfo> storeInfo,
             UserManager<ApplicationUser> userManager)
+            
         {
             _categoryInfo = categoryInfo;
             _storeInfo = storeInfo;
             _userManager = userManager;
         }
-
-
-
-        [HttpGet]
         public async Task<IActionResult> Index()
         {
             var userId = _userManager.GetUserId(HttpContext.User);
             var user = await _userManager.FindByIdAsync(userId);
-
-            var categoryInfo = await _categoryInfo.GetAllAsync(p => p.StoreInfoId == user.StoreId);
-
-
-            return View(categoryInfo);
+            var categoryinfo = await _categoryInfo.GetAllAsync(p => p.StoreInfoId == user.StoreId);
+            return View(categoryinfo);
         }
 
-        [HttpGet]
         public async Task<IActionResult> AddEdit(int Id)
         {
             CategoryInfo categoryInfo = new CategoryInfo();
@@ -43,13 +38,10 @@ namespace IMS.web.Controllers
             if (Id > 0)
             {
                 categoryInfo = await _categoryInfo.GetAsync(Id);
-
             }
 
             return View(categoryInfo);
-
         }
-
 
         [HttpPost]
         public async Task<IActionResult> AddEdit(CategoryInfo categoryInfo)
@@ -67,19 +59,18 @@ namespace IMS.web.Controllers
                         categoryInfo.StoreInfoId = user.StoreId;
                         await _categoryInfo.InsertAsync(categoryInfo);
 
-                        TempData["success"] = "Data Added Successfully!";
+                        TempData["success"] = "Data Added Sucessfully";
                     }
                     else
                     {
                         var OrgCategoryInfo = await _categoryInfo.GetAsync(categoryInfo.Id);
                         OrgCategoryInfo.CategoryName = categoryInfo.CategoryName;
                         OrgCategoryInfo.CategoryDescription = categoryInfo.CategoryDescription;
-
                         OrgCategoryInfo.IsActive = categoryInfo.IsActive;
                         OrgCategoryInfo.ModifiedDate = DateTime.Now;
                         OrgCategoryInfo.ModifiedBy = userId;
                         await _categoryInfo.UpdateAsync(OrgCategoryInfo);
-                        TempData["success"] = "Data Updated Successfully";
+                        TempData["success"] = "Data Updated Sucessfully";
                     }
                     return RedirectToAction(nameof(Index));
                 }
@@ -89,10 +80,10 @@ namespace IMS.web.Controllers
                     return RedirectToAction(nameof(AddEdit));
                 }
             }
+
             TempData["error"] = "Please input Valid Data";
             return RedirectToAction(nameof(AddEdit));
         }
-
 
     }
 }

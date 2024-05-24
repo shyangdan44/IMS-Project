@@ -13,7 +13,7 @@ namespace IMS.web.Migrations.IMSDb
 {
     [DbContext(typeof(IMSDbContext))]
     [Migration("20240521070953_rol")]
-    partial class rol
+    partial class Rol
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

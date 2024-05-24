@@ -5,7 +5,7 @@
 namespace IMS.web.Migrations.IMSDb
 {
     /// <inheritdoc />
-    public partial class rol : Migration
+    public partial class Rol : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

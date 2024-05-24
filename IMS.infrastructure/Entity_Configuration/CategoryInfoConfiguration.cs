@@ -19,9 +19,11 @@ namespace IMS.infrastructure.Entity_Configuration
 
 			builder.Property(e => e.Id)
 			   .ValueGeneratedOnAdd();
+
 			builder.Property(e => e.CategoryName)
 				.HasMaxLength(200)
 				.IsUnicode(true);
+
 			builder.Property(e => e.CategoryDescription)
 				.HasMaxLength(500)
 				.IsUnicode(true);
@@ -47,16 +49,17 @@ namespace IMS.infrastructure.Entity_Configuration
 			.WithOne(pt => pt.CategoryInfo)
 			.HasForeignKey(e => e.CategoryInfoId);
 
-
 			builder.Property(e => e.IsActive)
 			.HasDefaultValue(true);
 
 			builder.Property(e => e.CreatedDate)
 				.IsRequired()
 				.HasDefaultValueSql("GETDATE()");
+
 			builder.Property(e => e.CreatedBy)
 				.IsRequired()
 				.IsUnicode(true);
+
 			builder.Property(e => e.ModifiedDate)
 				.HasColumnType("datetime");
 

@@ -13,7 +13,12 @@ namespace IMS.infrastructure.Entity_Configuration
 	{
 		public void Configure(EntityTypeBuilder<SupplierInfo> builder)
 		{
-			builder.Property(e => e.SupplierName)
+            builder.HasKey(e => e.Id);
+
+            builder.Property(e => e.Id)
+               .ValueGeneratedOnAdd();
+
+            builder.Property(e => e.SupplierName)
 				.HasMaxLength(200)
 				.IsUnicode(true);
 

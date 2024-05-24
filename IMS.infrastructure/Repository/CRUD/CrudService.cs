@@ -11,9 +11,15 @@ using Microsoft.EntityFrameworkCore;
 
 namespace IMS.infrastructure.Repository.CRUD
 {
-    public class CrudService<T>(IMSDbContext context) : ICrudServices<T> where T : BaseEntity
+    public class CrudService<T> : ICrudServices<T> where T : BaseEntity
     {
-        public readonly IMSDbContext _context = context;
+        private readonly IMSDbContext _context;
+
+        public CrudService(IMSDbContext context)
+        {
+            _context = context;
+        }
+
 
         public int Delete(T entity)
         {
@@ -24,7 +30,8 @@ namespace IMS.infrastructure.Repository.CRUD
 
         public T Get(int? id)
         {
-            return _context.Set<T>().Find(id);
+            var result = _context.Set<T>().Find(id);
+            return result;
         }
 
         public T Get(Expression<Func<T, bool>> expression)
@@ -110,7 +117,7 @@ namespace IMS.infrastructure.Repository.CRUD
 
         public int Update(T entity)
         {
-            var result = _context.Set<T>().Update(entity).Property(p => p.Id).IsModified = false;
+            var result = _context.Set<T>().Update(entity).Property(p => p.Id);
             _context.SaveChanges();
             return entity.Id;
         }
