@@ -54,15 +54,15 @@
             </div>
 
             <div class="form-floating mb-3">
-                <select asp-for="Input.UserRoleID" class="form-control">
-                    <option value=null>-Choose-</option>
+                <select asp-for="Input.UserRoleId" class="form-control">
+                    <option value="null">-Choose-</option>
                     <option value="ADMIN">Admin</option>
                     <option value="COUNTER">Counter</option>
                     <option value="STORE">Store</option>
                     <option value="PUBLIC">Public</option>
                 </select>
-                <label asp-for="Input.UserRoleID"></label>
-                <span asp-validation-for="Input.UserRoleID" class="text-danger"></span>
+                <label asp-for="Input.UserRoleId"></label>
+                <span asp-validation-for="Input.UserRoleId" class="text-danger"></span>
             </div>
             @*  <div class="form-floating mb-3">
             <label asp-for="Input.UserRoleID"></label>

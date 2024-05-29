@@ -4,6 +4,7 @@ using IMS.infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace IMS.web.Migrations.IMSDb
 {
     [DbContext(typeof(IMSDbContext))]
-    partial class IMSDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240527114752_LasTab")]
+    partial class LasTab
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -322,7 +325,6 @@ namespace IMS.web.Migrations.IMSDb
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("BatchNo")
-                        .IsRequired()
                         .HasMaxLength(100)
                         .IsUnicode(true)
                         .HasColumnType("nvarchar(100)");
@@ -344,7 +346,6 @@ namespace IMS.web.Migrations.IMSDb
                         .HasDefaultValueSql("GETDATE()");
 
                     b.Property<DateTime?>("Expirydate")
-                        .IsRequired()
                         .HasColumnType("datetime");
 
                     b.Property<bool>("IsActive")
@@ -384,6 +385,9 @@ namespace IMS.web.Migrations.IMSDb
                         .HasColumnType("int");
 
                     b.Property<int>("SupplierInfoId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UnitInfoId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -578,13 +582,11 @@ namespace IMS.web.Migrations.IMSDb
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Address")
-                        .IsRequired()
                         .HasMaxLength(200)
                         .IsUnicode(true)
                         .HasColumnType("nvarchar(200)");
 
                     b.Property<string>("ContactPerson")
-                        .IsRequired()
                         .HasMaxLength(200)
                         .IsUnicode(true)
                         .HasColumnType("nvarchar(200)");
@@ -617,7 +619,6 @@ namespace IMS.web.Migrations.IMSDb
                         .HasColumnType("datetime");
 
                     b.Property<string>("PhoneNumber")
-                        .IsRequired()
                         .HasMaxLength(200)
                         .IsUnicode(true)
                         .HasColumnType("nvarchar(200)");
@@ -626,7 +627,6 @@ namespace IMS.web.Migrations.IMSDb
                         .HasColumnType("int");
 
                     b.Property<string>("SupplierName")
-                        .IsRequired()
                         .HasMaxLength(200)
                         .IsUnicode(true)
                         .HasColumnType("nvarchar(200)");
@@ -743,7 +743,6 @@ namespace IMS.web.Migrations.IMSDb
                         .HasColumnType("datetime");
 
                     b.Property<string>("UnitName")
-                        .IsRequired()
                         .HasMaxLength(150)
                         .IsUnicode(true)
                         .HasColumnType("nvarchar(150)");

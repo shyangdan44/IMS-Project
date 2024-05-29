@@ -66,15 +66,16 @@ else
     </div>
 
     <div class="row">
-       <div class="col-4">
+        <div class="col-4">
             <div class="form-group">
                 <label class="form-label" asp-for="UnitId"></label>
-                <select asp-for="UnitId" class="form-control" asp-items="@(new SelectList(ViewBag.UnitInfos,"Id","UnitName"))">
+                <select id="UnitId" class="form-control" asp-items="@(new SelectList(ViewBag.UnitInfos,"Id","UnitName"))" disabled>
                     <option value="null" selected disabled>-Choose-</option>
                 </select>
 
                 <span class="text-danger" asp-validation-for="UnitId"></span>
             </div>
+            
         </div>
         <div class="col-4">
             <div class="form-group">
@@ -110,15 +111,15 @@ else
         </div>
         <div class="col-4">
             <div class="form-group">
-                <label class="form-label" asp-for="SupplierInfo"></label>
-                <select asp-for="SupplierInfo" class="form-control" asp-items="@(new SelectList(ViewBag.SupplierInfos,"Id","SupplierName"))">
+                <label class="form-label" asp-for="SupplierInfoId"></label>
+                <select asp-for="SupplierInfoId" class="form-control" asp-items="@(new SelectList(ViewBag.SupplierInfos,"Id","SupplierName"))">
                     <option value="null" selected disabled>-Choose-</option>
                 </select>
 
-                <span class="text-danger" asp-validation-for="SupplierInfo"></span>
+                <span class="text-danger" asp-validation-for="SupplierInfoId"></span>
             </div>
         </div>
-
+       
     </div>
     <div class="row">
         <div class="col-4">
@@ -181,14 +182,13 @@ else
 
     <script>
 
-        $
-
+        
         $('#CategoryInfoId').change(function () {
 
             ChangeProduct();
         });
 
-        function ChangeProduct() {
+        function ChangeProduct(){
 
             var categoryId = $('#CategoryInfoId').val();
 
@@ -208,6 +208,34 @@ else
                 $('#ProductInfoId').empty();
                 $('#ProductInfoId').append(optionDistVal);
 
+            }).fail(function () {
+                
+            });
+
+
+        }
+
+
+        $('#ProductInfoId').change(function () {
+
+            ChangeUnit();
+        });
+
+        function ChangeUnit() {
+
+            var productId = $('#ProductInfoId').val();
+
+            $.ajax({
+                url: '/api/ProductRate/getUnit',
+                data: { ProductId: productId },
+                method: 'POST',
+            }).done(function (data) {
+
+                console.log(data);
+
+                $('#UnitId').val(data.product.unitInfoId);
+                $('#UnitIdd').val(data.product.unitInfoId);
+               
             }).fail(function () {
 
             });

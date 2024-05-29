@@ -105,19 +105,15 @@ namespace IMS.web.Areas.Identity.Pages.Account
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
-
             [Required]
             public string FirstName { get; set; }
             public string MiddleName { get; set; }
-            [Required]
             public string LastName { get; set; }
-            //  public string Email { get; set; }
-            public string Gender { get; set; }
             [Required]
             public string Address { get; set; }
-            // public string PhoneNumber { get; set; }
+            //public string PhoneNumber { get; set; }
             public int StoreId { get; set; }
-            public string UserRoleID { get; set; }
+            public string UserRoleId { get; set; }
             public string ProfileUrl { get; set; }
             public bool IsActive { get; set; }
             public DateTime CreatedDate { get; set; }
@@ -130,7 +126,6 @@ namespace IMS.web.Areas.Identity.Pages.Account
 
         public SelectList StoreInfolist { get; set; }
         public SelectList Rolelist { get; set; }
-
 
         public async Task OnGetAsync(string returnUrl = null)
         {
@@ -159,8 +154,8 @@ namespace IMS.web.Areas.Identity.Pages.Account
                 user.CreatedDate = DateTime.Now;
                 user.IsActive = true;
 
-				var role = _roleManager.FindByNameAsync(Input.UserRoleID).Result;
-                user.UserRoleID = role.Id;
+				var role = _roleManager.FindByNameAsync(Input.UserRoleId).Result;
+                user.UserRoleId = role.Id;
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
