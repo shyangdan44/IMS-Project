@@ -1,6 +1,5 @@
 ﻿@model IMS.models.ViewModels.TransactionViewModel
 
-
 <style>
     .leftside {
     }
@@ -242,7 +241,6 @@
 </div>
 
 
-
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 
@@ -265,7 +263,6 @@
 
 
         }
-
 
         $('#CategoryInfoId').change(function () {
 
@@ -299,12 +296,10 @@
 
         }
 
-
         $('#ProductInfoId').change(function () {
             ChangeUnit();
             ChangeBatch();
         });
-
 
 
         function ChangeUnit() {
@@ -327,9 +322,6 @@
 
 
         }
-
-
-
 
         function ChangeBatch() {
 
@@ -356,9 +348,7 @@
 
             });
 
-
         }
-
 
         function addCustomer() {
             $('#customermodal').modal('show');
@@ -404,8 +394,6 @@
             ChangeRate();
         });
 
-
-
         function ChangeRate() {
 
             var productRateId = $('#BatchNo').val();
@@ -431,13 +419,9 @@
 
         }
 
-
-
         $('#addbtn').click(function () {
             addtolist();
         });
-
-
 
         function validateForm() {
             // Clear previous error messages
@@ -502,21 +486,19 @@
             return isValid;
         }
 
-
         function addtolist() {
 
 
             if (validateForm()) {
 
 
-            if (!document.getElementById("dynamictable")) {
+                if (!document.getElementById("dynamictable")) {
 
-               
+
                     if ($('#Quantity').val() == 0) {
                         alert("Please enter valid quantity! ")
                         return
                     }
-
 
                     var tbl = document.createElement("table");
                     tbl.setAttribute('id', 'dynamictable');
@@ -527,7 +509,6 @@
                     headingCell1.setAttribute('name', 'category')
                     headingCell1.appendChild(headingText1)
                     header.appendChild(headingCell1)
-
 
                     var headingCell2 = document.createElement('th')
                     var headingText2 = document.createTextNode('Product')
@@ -545,7 +526,6 @@
                     var headingText4 = document.createTextNode('Price')
                     headingCell4.appendChild(headingText4)
                     header.appendChild(headingCell4)
-
 
                     var headingCell5 = document.createElement('th')
                     var headingText5 = document.createTextNode('Unit')
@@ -571,48 +551,45 @@
 
                     tbl.appendChild(header)
 
-
                     var body = document.createElement('tbody')
                     tbl.appendChild(body)
                     document.getElementById("listtable").append(tbl)
-               
+                }
 
-            }
+                let myTable = document.getElementById('dynamictable').getElementsByTagName('tbody')[0];
 
-            let myTable = document.getElementById('dynamictable').getElementsByTagName('tbody')[0];
+                let row = myTable.insertRow();
+                let cell1 = row.insertCell(0);
+                let cell2 = row.insertCell(1);
+                let cell3 = row.insertCell(2);
+                let cell4 = row.insertCell(3);
+                let cell5 = row.insertCell(4);
+                let cell6 = row.insertCell(5);
+                let cell7 = row.insertCell(6);
+                let cell8 = row.insertCell(7);
 
-            let row = myTable.insertRow();
-            let cell1 = row.insertCell(0);
-            let cell2 = row.insertCell(1);
-            let cell3 = row.insertCell(2);
-            let cell4 = row.insertCell(3);
-            let cell5 = row.insertCell(4);
-            let cell6 = row.insertCell(5);
-            let cell7 = row.insertCell(6);
-            let cell8 = row.insertCell(7);
+                cell1.setAttribute('data-name-category', $("#CategoryInfoId option:selected").val())
+                cell1.innerHTML = $("#CategoryInfoId option:selected").text();
+                cell2.setAttribute('data-name-product', $("#ProductInfoId option:selected").val())
+                cell2.innerHTML = $("#ProductInfoId option:selected").text();
+                cell3.setAttribute('data-name-batch', $("#BatchNo option:selected").val())
+                cell3.innerHTML = $("#BatchNo option:selected").text();
+                cell4.innerHTML = $('#Price').val();
+                cell5.setAttribute('data-name-unit', $("#UnitId option:selected").val())
+                cell5.innerHTML = $("#UnitId option:selected").text();
+                cell6.innerHTML = $('#Quantity').val();
+                cell7.innerHTML = $('#amt').val();
 
-            cell1.setAttribute('data-name-category', $("#CategoryInfoId option:selected").val())
-            cell1.innerHTML = $("#CategoryInfoId option:selected").text();
-            cell2.setAttribute('data-name-product', $("#ProductInfoId option:selected").val())
-            cell2.innerHTML = $("#ProductInfoId option:selected").text();
-            cell3.setAttribute('data-name-batch', $("#BatchNo option:selected").val())
-            cell3.innerHTML = $("#BatchNo option:selected").text();
-            cell4.innerHTML = $('#Price').val();
-            cell5.setAttribute('data-name-unit', $("#UnitId option:selected").val())
-            cell5.innerHTML = $("#UnitId option:selected").text();
-            cell6.innerHTML = $('#Quantity').val();
-            cell7.innerHTML = $('#amt').val();
+                var btn = document.createElement('input');
+                btn.type = "button";
+                btn.className = "btn";
+                btn.className = "btn-primary"
+                btn.name = "Delete"
+                btn.value = "Delete"
+                btn.setAttribute('onclick', 'DeleteRows(this)')
+                cell8.appendChild(btn);
 
-            var btn = document.createElement('input');
-            btn.type = "button";
-            btn.className = "btn";
-            btn.className = "btn-primary"
-            btn.name = "Delete"
-            btn.value = "Delete"
-            btn.setAttribute('onclick', 'DeleteRows(this)')
-            cell8.appendChild(btn);
-
-            getsummary();
+                getsummary();
             }
             reset();
         }
@@ -629,7 +606,7 @@
             $('#availablequantity').val('');
             $('#avlqty').text('');
             $('#CategoryInfoId').val('null');
-            $('#ProductInfoId').val('null'); 
+            $('#ProductInfoId').val('null');
             $('#BatchNo').val('null');
             $('#Price').val('');
             $('#Quantity').val('');
@@ -637,11 +614,34 @@
             $('#amt').val('');
 
         }
+
         function getsummary() {
 
+            var precount = ($('#totalCount').val() == '') ? 0 : parseFloat($('#totalCount').val());
+            var count = precount + 1;
+            console.log(count)
+            $('#totalCount').val(count);
+
+
+            var preqty = ($('#totalQuantity').val() == '') ? 0 : parseFloat($('#totalQuantity').val());
+            var curqty = ($('#Quantity').val() == '') ? 0 : parseFloat($('#Quantity').val());
+            var qty = preqty + curqty;
+            $('#totalQuantity').val(qty);
+
+
+            var preamt = ($('#amount').val() == '') ? 0 : parseFloat($('#amount').val());
+            var curamt = parseFloat($('#amt').val());
+            var amout = preamt + curamt
+            $('#amount').val(amout);
+
+            totalamount();
         }
 
+        function totalamount() {
 
+            var amt = $('#amount').val();
+            $('#totalAmount').val(amt);
+        }
 
 
     </script>
