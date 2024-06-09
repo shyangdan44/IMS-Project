@@ -6,14 +6,11 @@ using System.Threading.Tasks;
 
 namespace IMS.models.Enum
 {
-    public enum RoleEnum
+    public enum PaymentMethodEnum
     {
-
-        SUPERADMIN = 0,
-        ADMIN = 1,
-        COUNTER = 2,
-        STORE = 3,
-        PUBLIC = 4
+        Cash = 0,
+        OnlinePayment = 1,
+        Check = 2,
+        BankDeposit = 3
     }
-   
 }

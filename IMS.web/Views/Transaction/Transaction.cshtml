@@ -16,6 +16,7 @@
             <label class="form-label">Category </label>
             <select id="CategoryInfoId" class="form-control" asp-items="@(new SelectList(ViewBag.CategoryInfos,"Id","CategoryName"))">
                 <option value="null" selected disabled>-Choose-</option>
+
             </select>
             <span id="validcategory" class="text-danger"></span>
         </div>
@@ -91,10 +92,9 @@
 
             </div>
 
-
-
         </div>
     </div>
+
     <div class="col-4" style="border:1px solid red">
         <p style="font-size:18px;text-align:center">Summary </p>
 
@@ -134,7 +134,7 @@
                 <label class="col-form-label">Discount :</label>
             </div>
             <div class="col-6">
-                <input id="discount" class="form-control">
+                <input id="discount" onchange="totalamount()" class="form-control">
             </div>
 
         </div>
@@ -148,25 +148,44 @@
             </div>
 
         </div>
+        <div class="row">
+            <div class="col-12">
+                <textarea placeholder="Remarks" id="remarks" rows="2" class="form-control"></textarea>
+            </div>
+        </div>
+        <br />
+        <div class="col-6">
+            <div class="form-floating" asp-item="@(Html.GetEnumSelectList<IMS.models.Enum.PaymentMethodEnum>())">
+                <select id="paymentmethod" class="form-select">
+                    <option selected value="0">Cash</option>
+                    <option value="1">Online</option>
+                    <option value="2">Cheque</option>
+                    <option value="3">Bank Deposit</option>
+                </select>
+                <label>Payment Method</label>
+                <span class="text-danger"></span>
+            </div>
+        </div>
         <hr />
         <div class="row">
             <div class="form-group">
-                <label class="form-label">Select Customer   <a class="btn btn-outline-primary btn-sm" onclick="addCustomer()">Add Customer</a>   </label>
+                <label class="form-label">Select Customer <a class="btn btn-outline-primary btn-sm" onclick="addCustomer()">Add Customer</a>   </label>
                 <select id="custometInfo" class="form-control" asp-items="@(new SelectList(ViewBag.CustomerInfos,"Id","CustomerName"))">
                     <option value="null" selected disabled>-Choose-</option>
                 </select>
 
                 <span class="text-danger"></span>
             </div>
+            
 
 
         </div>
         <div class="row">
             <div class="col-6">
-                <a class="btn btn-secondary px-4 " style="margin-top:30px">Back</a>
+                <a class="btn btn-secondary px-4 "asp-action="Index" style="margin-top:30px">Back</a>
             </div>
             <div class="col-6">
-                <a class="btn btn-primary px-4 float-end" style="margin-top:30px">Submit</a>
+                <a class="btn btn-primary px-4 float-end" style="margin-top:30px" id="saveTransaction" tyle="margin-top:30px">Submit</a>
             </div>
 
         </div>
@@ -226,12 +245,10 @@
                                 <span class="text-danger" asp-validation-for="CustomerInfo.Address"></span>
                             </div>
                         </div>
-
-
-
                     </div>
                 </form>
             </div>
+
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 <a id="savebtn" class="btn btn-primary">Save</a>
@@ -243,7 +260,8 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" asp-append-version="true" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script>
 
         function changeamt() {
@@ -261,8 +279,8 @@
                 $('#amt').val(totamt);
             }
 
-
         }
+
 
         $('#CategoryInfoId').change(function () {
 
@@ -296,10 +314,12 @@
 
         }
 
+
         $('#ProductInfoId').change(function () {
             ChangeUnit();
             ChangeBatch();
         });
+
 
 
         function ChangeUnit() {
@@ -322,6 +342,9 @@
 
 
         }
+
+
+
 
         function ChangeBatch() {
 
@@ -348,7 +371,9 @@
 
             });
 
+
         }
+
 
         function addCustomer() {
             $('#customermodal').modal('show');
@@ -394,6 +419,8 @@
             ChangeRate();
         });
 
+
+
         function ChangeRate() {
 
             var productRateId = $('#BatchNo').val();
@@ -419,9 +446,13 @@
 
         }
 
+
+
         $('#addbtn').click(function () {
             addtolist();
         });
+
+
 
         function validateForm() {
             // Clear previous error messages
@@ -469,7 +500,7 @@
                 $('#validquantity').text('Please Input Quantity');
                 isValid = false;
             } else if (isNaN(quantity) || quantity <= 0) {
-                $('#validquantity').text('Please Input Quantity');
+                $('#validquantity').text('Please Input valid Quantity');
                 isValid = false;
             }
 
@@ -486,6 +517,8 @@
             return isValid;
         }
 
+
+
         function addtolist() {
 
 
@@ -493,12 +526,6 @@
 
 
                 if (!document.getElementById("dynamictable")) {
-
-
-                    if ($('#Quantity').val() == 0) {
-                        alert("Please enter valid quantity! ")
-                        return
-                    }
 
                     var tbl = document.createElement("table");
                     tbl.setAttribute('id', 'dynamictable');
@@ -509,6 +536,7 @@
                     headingCell1.setAttribute('name', 'category')
                     headingCell1.appendChild(headingText1)
                     header.appendChild(headingCell1)
+
 
                     var headingCell2 = document.createElement('th')
                     var headingText2 = document.createTextNode('Product')
@@ -526,6 +554,7 @@
                     var headingText4 = document.createTextNode('Price')
                     headingCell4.appendChild(headingText4)
                     header.appendChild(headingCell4)
+
 
                     var headingCell5 = document.createElement('th')
                     var headingText5 = document.createTextNode('Unit')
@@ -551,9 +580,12 @@
 
                     tbl.appendChild(header)
 
+
                     var body = document.createElement('tbody')
                     tbl.appendChild(body)
                     document.getElementById("listtable").append(tbl)
+
+
                 }
 
                 let myTable = document.getElementById('dynamictable').getElementsByTagName('tbody')[0];
@@ -594,9 +626,51 @@
             reset();
         }
 
+
+        function getsummary() {
+            var precount = ($('#totalCount').val() == '') ? 0 : $('#totalCount').val();
+            var count = parseFloat(precount) + 1;
+            $('#totalCount').val(count);
+
+            var preqty = ($('#totalQuantity').val() == '') ? 0 : $('#totalQuantity').val();
+            var curqty = $('#Quantity').val();
+            var qty = parseFloat(preqty) + parseFloat(curqty);
+            $('#totalQuantity').val(qty);
+
+            var preamt = ($('#amount').val() == '') ? 0 : $('#amount').val();
+            var curamt = $('#amt').val();
+            var amount = parseFloat(preamt) + parseFloat(curamt);
+            $('#amount').val(amount);
+
+            totalamount();
+        }
+        function totalamount() {
+            var dis = ($('#discount').val() == '') ? 0 : $('#discount').val();
+            var amt = ($('#amount').val() == '') ? 0 : $('#amount').val();
+            var tot = parseFloat(amt) - parseFloat(dis);
+            $('#totalAmount').val(tot);
+
+        }
+
         function DeleteRows(btn) {
             var row = btn.parentNode.parentNode;
             console.log(row.rowIndex)
+
+            var amount = document.getElementById('dynamictable').rows[row.rowIndex].cells[6].innerHTML;
+            var quantity = document.getElementById('dynamictable').rows[row.rowIndex].cells[5].innerHTML;
+
+            var cnt = $('#totalCount').val();
+            var newcnt = parseFloat(cnt) - 1;
+            $('#totalCount').val(newcnt);
+
+            var qty = $('#totalQuantity').val();
+            var totqty = parseFloat(qty) - parseFloat(quantity);
+            $('#totalQuantity').val(totqty);
+
+            var preamt = $('#amount').val();
+            var totamt = parseFloat(preamt) - parseFloat(amount);
+            $('#amount').val(totamt);
+            totalamount();
 
             var row = btn.parentNode.parentNode;
             row.parentNode.removeChild(row);
@@ -612,36 +686,111 @@
             $('#Quantity').val('');
             $('#UnitId').val('');
             $('#amt').val('');
+        }
+
+
+        $('#custometInfo').change(function () {
+            Changecustomer();
+        });
+
+
+
+        function Changecustomer() {
+
+            var custometId = $('#custometInfo').val();
+
+            $.ajax({
+                url: '/api/Transaction/getCustomer',
+                data: { custometId: custometId },
+                method: 'POST',
+            }).done(function (data) {
+
+                console.log(data);
+                $('#name').val('');
+                $('#panno').val('');
+                $('#phoneno').val('');
+                $('#name').val(data.customerInfo.customerName);
+                $('#panno').val(data.customerInfo.panNo);
+                $('#phoneno').val(data.customerInfo.phoneNumber);
+            }).fail(function () {
+
+            });
+
+
+        }
+        $(document).ready(function () {
+            $('#custometInfo').select2({
+                maximumInputLength: 20,
+                placeholder: "Serach Customer"
+
+            });
+        });
+
+
+        $('#saveTransaction').click(function () {
+
+            SaveTransaction();
+
+        });
+
+
+        function SaveTransaction() {
+
+            var transactionViewModel = '';
+
+            var productInvoiceInfo = {
+                CustomerInfoId: $('#custometInfo').val(),
+                NetAmount: $('#amount').val(),
+                DiscountAmount: $('#discount').val(),
+                TotalAmount: $('#totalAmount').val(),
+                Remarks: $('#remarks').val(),
+                PaymentMethod: $('#paymentmethod').val()
+
+            };
+
+            var TableData = new Array();
+            $('#dynamictable tr').each(function (row, tr) {
+
+                TableData[row] = {
+                    "ProductRateInfoId": $(tr).find('td:eq(2)').data('name-batch'),
+                    "Rate": $(tr).find('td:eq(3)').text(),
+                    "Quantity": $(tr).find('td:eq(5)').text(),
+                    "Amount": $(tr).find('td:eq(6)').text()
+                }
+            });
+
+            TableData.shift();
+            console.log(TableData)
+
+            transactionViewModel = {
+                ProductInvoiceInfo: productInvoiceInfo,
+                ProductInvoiceDetailInfos: TableData
+            };
+
+            $.ajax({
+                url: '/api/Transaction/saveTransaction',
+                data: { transactionViewModel: transactionViewModel },
+                method: 'POST',
+            }).done(function (data) {
+
+                console.log(data)
+
+                toastr.success('Transaction Completed')
+
+                window.open('/Transaction/PrintReport?Id=' + data);
+
+                setTimeout(function () {
+                    window.location.reload();
+                }, 1500);
+
+
+            }).fail(function () {
+
+            });
 
         }
 
-        function getsummary() {
 
-            var precount = ($('#totalCount').val() == '') ? 0 : parseFloat($('#totalCount').val());
-            var count = precount + 1;
-            console.log(count)
-            $('#totalCount').val(count);
-
-
-            var preqty = ($('#totalQuantity').val() == '') ? 0 : parseFloat($('#totalQuantity').val());
-            var curqty = ($('#Quantity').val() == '') ? 0 : parseFloat($('#Quantity').val());
-            var qty = preqty + curqty;
-            $('#totalQuantity').val(qty);
-
-
-            var preamt = ($('#amount').val() == '') ? 0 : parseFloat($('#amount').val());
-            var curamt = parseFloat($('#amt').val());
-            var amout = preamt + curamt
-            $('#amount').val(amout);
-
-            totalamount();
-        }
-
-        function totalamount() {
-
-            var amt = $('#amount').val();
-            $('#totalAmount').val(amt);
-        }
 
 
     </script>

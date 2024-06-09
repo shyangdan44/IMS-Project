@@ -6,14 +6,10 @@ using System.Threading.Tasks;
 
 namespace IMS.models.Enum
 {
-    public enum RoleEnum
+    public enum BillStatusEnum
     {
-
-        SUPERADMIN = 0,
-        ADMIN = 1,
-        COUNTER = 2,
-        STORE = 3,
-        PUBLIC = 4
+        Pending = 0,
+        Paid = 1,
+        Cancelled = 2
     }
-   
 }
